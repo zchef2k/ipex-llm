@@ -3,6 +3,9 @@
    < <b>English</b> | <a href='./llamacpp_portable_zip_gpu_quickstart.zh-CN.md'>中文</a> >
 </p>
 
+>[!Important]
+> We can now run **DeepSeek-R1-671B-Q4_K_M** with 1 or 2 Arc A770 on Xeon using the latest [llama.cpp Portable Zip](#flashmoe-for-deepseek-v3r1).
+
 This guide demonstrates how to use [llama.cpp portable zip](https://github.com/intel/ipex-llm/releases/tag/v2.2.0-nightly) to directly run llama.cpp on Intel GPU with `ipex-llm` (without the need of manual installations).
 
 > [!NOTE]
@@ -23,7 +26,7 @@ This guide demonstrates how to use [llama.cpp portable zip](https://github.com/i
   - [Step 1: Download and Extract](#step-1-download-and-extract)
   - [Step 2: Runtime Configuration](#step-2-runtime-configuration-1)
   - [Step 3: Run GGUF models](#step-3-run-gguf-models-1)
-  - [(New) FlashMoE for MoE Models (e.g., DeepSeek V3/R1) using llama.cpp](#flashmoe-for-deepseek-v3r1)
+  - [(New) FlashMoE for DeepSeek V3/R1 using llama.cpp](#flashmoe-for-deepseek-v3r1)
 - [Tips & Troubleshooting](#tips--troubleshooting)
   - [Error: Detected different sycl devices](#error-detected-different-sycl-devices)
   - [Multi-GPUs usage](#multi-gpus-usage)
