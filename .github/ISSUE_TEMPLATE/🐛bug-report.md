@@ -21,7 +21,7 @@ Steps to reproduce the error:
 If applicable, add screenshots to help explain the problem
 
 **Environment information**
-If possible, please attach the output of the environment check script, using
+If possible, please attach the output of the environment check script, using:
 - https://github.com/intel/ipex-llm/blob/main/python/llm/scripts/env-check.bat, or
 - https://github.com/intel/ipex-llm/blob/main/python/llm/scripts/env-check.sh
 
