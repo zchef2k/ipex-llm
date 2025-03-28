@@ -16,6 +16,7 @@ COPY ./ccl_torch.patch /tmp/
 COPY ./vllm_online_benchmark.py ./vllm_offline_inference.py ./vllm_offline_inference_vision_language.py \
      ./payload-1024.lua ./start-vllm-service.sh ./benchmark_vllm_throughput.py ./benchmark_vllm_latency.py \
      ./start-pp_serving-service.sh /llm/
+COPY ./1ccl_for_multi_arc.patch /build/
      
 RUN set -eux && \
     #
@@ -55,7 +56,7 @@ RUN set -eux && \
     pip install --pre --upgrade ipex-llm[xpu_2.6] --extra-index-url https://download.pytorch.org/whl/xpu && \
     #
     # Build torch-ccl
-    mkdir /build && \
+    mkdir -p /build && \
     cd /build && \
     git clone https://github.com/intel/torch-ccl.git && \
     cd torch-ccl && \
@@ -64,8 +65,21 @@ RUN set -eux && \
     git submodule update --init --recursive && \
     # This patch will enable build torch-ccl with pytorch 2.6 environment
     git apply /tmp/ccl_torch.patch && \
-    USE_SYSTEM_ONECCL=ON COMPUTE_BACKEND=dpcpp python setup.py bdist_wheel
+    USE_SYSTEM_ONECCL=ON COMPUTE_BACKEND=dpcpp python setup.py bdist_wheel && \
     # File path: /build/torch-ccl/dist/oneccl_bind_pt-2.5.0+xpu-cp311-cp311-linux_x86_64.whl
+    # Build oneCCL
+    pip install ninja && \
+    cd /build/ && \
+    git clone https://github.com/analytics-zoo/oneCCL.git && \
+    cd oneCCL && \
+    git checkout 3afa1bb7936f57683a2503c34b29c0daca6a9ccb && \
+    git apply /build/1ccl_for_multi_arc.patch && \
+    mkdir build && \
+    cd build && \
+    cmake .. -GNinja -DCMAKE_C_COMPILER=icx -DCMAKE_CXX_COMPILER=icpx -DCMAKE_CXX_FLAGS="-fsycl" -DCOMPUTE_BACKEND=dpcpp  -DCMAKE_BUILD_TYPE=MinSizeRel && \
+    # File path: /build/oneCCL/build/src/libccl.so.1.0
+    ninja
+
 
 # Second stage: Final runtime image
 FROM intel/oneapi-basekit:2025.0.1-0-devel-ubuntu22.04
@@ -73,6 +87,11 @@ FROM intel/oneapi-basekit:2025.0.1-0-devel-ubuntu22.04
 # Copy the built torch-ccl package from the build stage
 COPY --from=build /build/torch-ccl/dist/oneccl_bind_pt-2.5.0+xpu-cp311-cp311-linux_x86_64.whl /opt/
 COPY --from=build /llm/ /llm/
+COPY --from=build /build/oneCCL/build/src/libccl.so.1.0 /opt/intel/1ccl-wks/lib/
+COPY --from=build /build/oneCCL/build/src/libccl.so.1 /opt/intel/1ccl-wks/lib/
+COPY --from=build /build/oneCCL/build/src/libccl.so /opt/intel/1ccl-wks/lib/
+COPY ./vllm_for_multi_arc.patch /llm/
+COPY ./setvars.sh /opt/intel/1ccl-wks/
 
 ARG http_proxy
 ARG https_proxy
@@ -128,10 +147,6 @@ RUN set -eux && \
     # Install torch-ccl
     pip install /opt/oneccl_bind_pt-2.5.0+xpu-cp311-cp311-linux_x86_64.whl && \
     #
-    # Install Internal oneccl
-    cd /opt && \
-    wget https://sourceforge.net/projects/oneccl-wks/files/2025.0.0.6.6-release/oneccl_wks_installer_2025.0.0.6.6.sh && \
-    bash oneccl_wks_installer_2025.0.0.6.6.sh && \
     apt-get update && \
     apt-get install -y --no-install-recommends libfabric-dev wrk libaio-dev numactl && \
     # 
@@ -154,13 +169,16 @@ RUN set -eux && \
     rm -rf /tmp/neo && \
     #
     # Install vllm
-    git clone -b 0.6.6 https://github.com/analytics-zoo/vllm.git /llm/vllm && \
+    git clone -b v0.6.6.post1 https://github.com/vllm-project/vllm /llm/vllm && \
     cd /llm/vllm && \
+    git apply /llm/vllm_for_multi_arc.patch && \
     pip install setuptools-scm && \
     pip install --upgrade cmake && \
     VLLM_TARGET_DEVICE=xpu pip install --no-build-isolation -v /llm/vllm && \
+    rm -rf /llm/vllm_for_multi_arc.patch && \
     pip install mpi4py fastapi uvicorn openai && \
     pip install ray
+
 
 WORKDIR /llm/
 ENTRYPOINT ["bash", "/llm/start-vllm-service.sh"]
