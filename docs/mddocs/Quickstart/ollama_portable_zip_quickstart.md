@@ -28,7 +28,7 @@ This guide demonstrates how to use [Ollama portable zip](https://github.com/ipex
   - [Increase context length in Ollama](#increase-context-length-in-ollama)
   - [Select specific GPU(s) to run Ollama when multiple ones are available](#select-specific-gpus-to-run-ollama-when-multiple-ones-are-available)
   - [Tune performance](#tune-performance)
-  - [Additional models supported after Ollama v0.5.4](#additional-models-supported-after-ollama-v054)
+  - [Additional models supported after Ollama v0.6.2](#additional-models-supported-after-ollama-v062)
   - [Signature Verification](#signature-verification)
 - [More details](ollama_quickstart.md)
 
@@ -74,7 +74,9 @@ Check your GPU driver version, and update it if needed; we recommend following [
 
 ### Step 1: Download and Extract
 
+
 Download IPEX-LLM Ollama portable tgz for Ubuntu users from the [link](https://github.com/ipex-llm/ipex-llm/releases/tag/v2.3.0-nightly).
+
 
 Then open a terminal, extract the tgz file to a folder.
 
@@ -206,9 +208,9 @@ To enable `SYCL_PI_LEVEL_ZERO_USE_IMMEDIATE_COMMANDLISTS`, set it **before start
 > [!TIP]
 > You could refer to [here](https://www.intel.com/content/www/us/en/developer/articles/guide/level-zero-immediate-command-lists.html) regarding more information about Level Zero Immediate Command Lists.
 
-### Additional models supported after Ollama v0.5.4
+### Additional models supported after Ollama v0.6.2
 
-The currently Ollama Portable Zip is based on Ollama v0.5.4; in addition, the following new models have also been supported in the Ollama Portable Zip:
+The currently Ollama Portable Zip is based on Ollama v0.6.2; in addition, the following new models have also been supported in the Ollama Portable Zip:
 
 | Model  | Download (Windows) | Download (Linux) | Model Link |
 | - | - | - | - |

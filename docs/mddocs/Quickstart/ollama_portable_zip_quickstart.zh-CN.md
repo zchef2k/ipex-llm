@@ -3,6 +3,7 @@
    < <a href='./ollama_portable_zip_quickstart.md'>English</a> | <b>中文</b> >
 </p>
 
+
 本指南演示如何使用 [Ollama portable zip](https://github.com/ipex-llm/ipex-llm/releases/tag/v2.3.0-nightly) 通过 `ipex-llm` 在 Intel GPU 上直接免安装运行 Ollama。
 
 > [!NOTE]
@@ -28,7 +29,7 @@
   - [在 Ollama 中增加上下文长度](#在-ollama-中增加上下文长度)
   - [在多块 GPU 可用时选择特定的 GPU 来运行 Ollama](#在多块-gpu-可用时选择特定的-gpu-来运行-ollama)
   - [性能调优](#性能调优)
-  - [Ollama v0.5.4 之后新增模型支持](#ollama-v054-之后新增模型支持)
+  - [Ollama v0.6.2 之后新增模型支持](#ollama-v062-之后新增模型支持)
   - [签名验证](#签名验证)
 - [更多信息](ollama_quickstart.zh-CN.md)
 
@@ -205,9 +206,9 @@ Ollama 默认从 Ollama 库下载模型。通过在**运行 Ollama 之前**设�
 > [!TIP]
 > 参考[此处文档](https://www.intel.com/content/www/us/en/developer/articles/guide/level-zero-immediate-command-lists.html)以获取更多 Level Zero Immediate Command Lists 相关信息。
 
-### Ollama v0.5.4 之后新增模型支持
+### Ollama v0.6.2 之后新增模型支持
 
-当前的 Ollama Portable Zip 基于 Ollama v0.5.4；此外，以下新模型也已在 Ollama Portable Zip 中得到支持：
+当前的 Ollama Portable Zip 基于 Ollama v0.6.2；此外，以下新模型也已在 Ollama Portable Zip 中得到支持：
 
 | 模型  | 下载（Windows）| 下载（Linux）| 模型链接 |
 | - | - | - | - |
