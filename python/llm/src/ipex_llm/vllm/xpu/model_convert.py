@@ -41,9 +41,9 @@ def _sample_get_logits(
     # HINT: we do not support other types of quantization for now
     # TODO: we may encounter tie-word-embedding problems
     if isinstance(lm_head, VocabParallelEmbedding):
-        logits = lm_head.linear_method.apply(lm_head,
-                                             hidden_states,
-                                             bias=embedding_bias)
+        logits = lm_head.quant_method.apply(lm_head,
+                                            hidden_states,
+                                            bias=embedding_bias)
     else:
         logits = lm_head(hidden_states)
         if embedding_bias is not None:
