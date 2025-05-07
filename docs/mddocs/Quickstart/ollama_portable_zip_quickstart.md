@@ -114,24 +114,24 @@ You could then use Ollama to run LLMs on Intel GPUs as follows:
 
 ### Speed up model download using alternative sources
 
-Ollama by default downloads model from the Ollama library. By setting the environment variable `IPEX_LLM_MODEL_SOURCE` to `modelscope` or `ollama` **before running Ollama**, you could switch the source where the model is downloaded.
+Ollama by default downloads model from the Ollama library. By setting the environment variable `OLLAMA_MODEL_SOURCE` to `modelscope` or `ollama` **before running Ollama**, you could switch the source where the model is downloaded.
 
 For example, if you would like to run `deepseek-r1:7b` but the download speed from the Ollama library is slow, you could download the model from ModelScope as follows:
 
 - For **Windows** users:
 
   - In the "Command Prompt", navigate to the extracted folder by `cd /d PATH\TO\EXTRACTED\FOLDER`
-  - Run `set IPEX_LLM_MODEL_SOURCE=modelscope` in "Command Prompt"
+  - Run `set OLLAMA_MODEL_SOURCE=modelscope` in "Command Prompt"
   - Run `ollama run deepseek-r1:7b`
 
 - For **Linux** users:
 
   - In a terminal other than the one for Ollama serve, navigate to the extracted folder by `cd PATH\TO\EXTRACTED\FOLDER`
-  - Run `export IPEX_LLM_MODEL_SOURCE=modelscope` in the terminal
+  - Run `export OLLAMA_MODEL_SOURCE=modelscope` in the terminal
   - Run `./ollama run deepseek-r1:7b`
 
 > [!TIP]
-> Model downloaded with `set IPEX_LLM_MODEL_SOURCE=modelscope` will still show actual model id in `ollama list`, e.g.
+> Model downloaded with `set OLLAMA_MODEL_SOURCE=modelscope` will still show actual model id in `ollama list`, e.g.
 > ```
 > NAME                                                             ID              SIZE      MODIFIED
 > modelscope.cn/unsloth/DeepSeek-R1-Distill-Qwen-7B-GGUF:Q4_K_M    f482d5af6aec    4.7 GB    About a minute ago
@@ -142,22 +142,25 @@ For example, if you would like to run `deepseek-r1:7b` but the download speed fr
 
 By default, Ollama runs model with a context window of 2048 tokens. That is, the model can "remember" at most 2048 tokens of context.
 
-To increase the context length, you could set environment variable `IPEX_LLM_NUM_CTX` **before staring Ollama Serve**, as shwon below (if Ollama serve is already running, please make sure to stop it first):
+To increase the context length, you could set environment variable `OLLAMA_NUM_CTX` **before staring Ollama Serve**, as shwon below (if Ollama serve is already running, please make sure to stop it first):
 
 - For **Windows** users:
 
   - Open "Command Prompt", and navigate to the extracted folder through `cd /d PATH\TO\EXTRACTED\FOLDER`
-  - Set `IPEX_LLM_NUM_CTX` to the desired length in the "Command Prompt, e.g. `set IPEX_LLM_NUM_CTX=16384`
+  - Set `OLLAMA_NUM_CTX` to the desired length in the "Command Prompt, e.g. `set OLLAMA_NUM_CTX=16384`
   - Start Ollama serve through `start-ollama.bat`
 
 - For **Linux** users:
 
   - In a terminal, navigate to the extracted folder through `cd PATH\TO\EXTRACTED\FOLDER`
-  - Set `IPEX_LLM_NUM_CTX` to the desired length in the terminal, e.g. `export IPEX_LLM_NUM_CTX=16384`
+  - Set `OLLAMA_NUM_CTX` to the desired length in the terminal, e.g. `export OLLAMA_NUM_CTX=16384`
   - Start Ollama serve through `./start-ollama.sh`
 
 > [!TIP]
-> `IPEX_LLM_NUM_CTX` has a higher priority than the `num_ctx` settings in a models' `Modelfile`.
+> `OLLAMA_NUM_CTX` has a higher priority than the `num_ctx` settings in a models' `Modelfile`.
+
+> [!NOTE]
+> For versions earlier than 2.7.0b20250429, please use the `IPEX_LLM_NUM_CTX` instead.
 
 ### Select specific GPU(s) to run Ollama when multiple ones are available
 

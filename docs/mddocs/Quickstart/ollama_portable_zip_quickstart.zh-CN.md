@@ -112,24 +112,24 @@ cd PATH/TO/EXTRACTED/FOLDER
 
 ### 通过切换源提升模型下载速度
 
-Ollama 默认从 Ollama 库下载模型。通过在**运行 Ollama 之前**设置环境变量 `IPEX_LLM_MODEL_SOURCE` 为 `modelscope` 或 `ollama`，你可以切换模型的下载源。
+Ollama 默认从 Ollama 库下载模型。通过在**运行 Ollama 之前**设置环境变量 `OLLAMA_MODEL_SOURCE` 为 `modelscope` 或 `ollama`，你可以切换模型的下载源。
 
 例如，如果你想运行 `deepseek-r1:7b` 但从 Ollama 库的下载速度较慢，可以通过如下方式改用 ModelScope 上的模型源：
 
 - 对于 **Windows** 用户：
 
   - 打开命令提示符通过 `cd /d PATH\TO\EXTRACTED\FOLDER` 命令进入解压后的文件夹
-  - 在命令提示符中运行 `set IPEX_LLM_MODEL_SOURCE=modelscope`
+  - 在命令提示符中运行 `set OLLAMA_MODEL_SOURCE=modelscope`
   - 运行 `ollama run deepseek-r1:7b`
 
 - 对于 **Linux** 用户：
 
   - 在另一个终端（不同于运行 Ollama serve 的终端）中，输入指令 `cd PATH/TO/EXTRACTED/FOLDER` 进入解压后的文件夹
-  - 在终端中运行 `export IPEX_LLM_MODEL_SOURCE=modelscope`
+  - 在终端中运行 `export OLLAMA_MODEL_SOURCE=modelscope`
   - 运行 `./ollama run deepseek-r1:7b`
 
 > [!Tip]
-> 使用 `set IPEX_LLM_MODEL_SOURCE=modelscope` 下载的模型，在执行 `ollama list` 时仍会显示实际的模型 ID，例如：
+> 使用 `set OLLAMA_MODEL_SOURCE=modelscope` 下载的模型，在执行 `ollama list` 时仍会显示实际的模型 ID，例如：
 > ```
 > NAME                                                             ID              SIZE      MODIFIED
 > modelscope.cn/unsloth/DeepSeek-R1-Distill-Qwen-7B-GGUF:Q4_K_M    f482d5af6aec    4.7 GB    About a minute ago
@@ -140,22 +140,25 @@ Ollama 默认从 Ollama 库下载模型。通过在**运行 Ollama 之前**设�
 
 默认情况下，Ollama 使用 2048 个 token 的上下文窗口运行模型。也就是说，模型最多能 “记住” 2048 个 token 的上下文。
 
-要增加上下文长度，可以在**启动 Ollama serve 之前**设置环境变量 `IPEX_LLM_NUM_CTX`，步骤如下（如果 Ollama serve 已经在运行，请确保先将其停止）：
+要增加上下文长度，可以在**启动 Ollama serve 之前**设置环境变量 `OLLAMA_NUM_CTX`，步骤如下（如果 Ollama serve 已经在运行，请确保先将其停止）：
 
 - 对于 **Windows** 用户：
 
   - 打开命令提示符，并通过 `cd /d PATH\TO\EXTRACTED\FOLDER` 命令进入解压后的文件夹
-  - 在命令提示符中将 `IPEX_LLM_NUM_CTX` 设置为所需长度，例如：`set IPEX_LLM_NUM_CTX=16384`
+  - 在命令提示符中将 `OLLAMA_NUM_CTX` 设置为所需长度，例如：`set OLLAMA_NUM_CTX=16384`
   - 通过运行 `start-ollama.bat` 启动 Ollama serve
 
 - 对于 **Linux** 用户：
 
   - 在终端中输入指令 `cd PATH/TO/EXTRACTED/FOLDER` 进入解压后的文件夹
-  - 在终端中将 `IPEX_LLM_NUM_CTX` 设置为所需长度，例如：`export IPEX_LLM_NUM_CTX=16384`
+  - 在终端中将 `OLLAMA_NUM_CTX` 设置为所需长度，例如：`export OLLAMA_NUM_CTX=16384`
   - 通过运行 `./start-ollama.sh` 启动 Ollama serve
 
 > [!Tip]
-> `IPEX_LLM_NUM_CTX` 的优先级高于模型 `Modelfile` 中设置的 `num_ctx`。
+> `OLLAMA_NUM_CTX` 的优先级高于模型 `Modelfile` 中设置的 `num_ctx`。
+
+> [!NOTE]
+> 对早于 2.7.0b20250429 的版本，请改用 IPEX_LLM_NUM_CTX 变量。
 
 ### 在多块 GPU 可用时选择特定的 GPU 来运行 Ollama
 
