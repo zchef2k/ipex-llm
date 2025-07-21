@@ -86,7 +86,6 @@ You may launch the Ollama service as below:
   export ZES_ENABLE_SYSMAN=1
   
   source /opt/intel/oneapi/setvars.sh
-  export SYCL_CACHE_PERSISTENT=1
   # [optional] under most circumstances, the following environment variable may improve performance, but sometimes this may also cause performance degradation
   export SYCL_PI_LEVEL_ZERO_USE_IMMEDIATE_COMMANDLISTS=1
   # [optional] if you want to run on single GPU, use below command to limit GPU may improve performance
@@ -103,7 +102,6 @@ You may launch the Ollama service as below:
   set OLLAMA_NUM_GPU=999
   set no_proxy=localhost,127.0.0.1
   set ZES_ENABLE_SYSMAN=1
-  set SYCL_CACHE_PERSISTENT=1
   rem under most circumstances, the following environment variable may improve performance, but sometimes this may also cause performance degradation
   set SYCL_PI_LEVEL_ZERO_USE_IMMEDIATE_COMMANDLISTS=1
 
@@ -246,3 +244,8 @@ When you start `ollama serve` and execute `ollama run <model_name>`, but `ollama
 
 1. On Linux, you may run `systemctl stop ollama` to stop all ollama processes, and then rerun `ollama serve` in your current directory.
 2. On Windows, you may `set OLLAMA_HOST=0.0.0.0` to ensure that the ollama commands run on the current `ollama serve`.
+
+#### 11. Error `The program was built for 1 devices` when executing `ollama serve`
+When you start `ollama serve` and execute `ollama run <model_name>`, but encounter the error `The program was built for 1 devices. Build program log for 'Intel(R) Arc(TM) A770 Graphics':`. This may be caused by the command `set/export SYCL_CACHE_PERSISTENT=1`. Please run commands as below:
+
+run `unset SYCL_CACHE_PERSISTENT` in the terminal; if the variable has been written into a configuration file such as `~/.bashrc`, you need to manually delete or comment out the conrresponding line.

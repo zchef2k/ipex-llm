@@ -123,7 +123,6 @@ To use GPU acceleration, several environment variables are required or recommend
   
   ```bash
   source /opt/intel/oneapi/setvars.sh
-  export SYCL_CACHE_PERSISTENT=1
   # [optional] under most circumstances, the following environment variable may improve performance, but sometimes this may also cause performance degradation
   export SYCL_PI_LEVEL_ZERO_USE_IMMEDIATE_COMMANDLISTS=1
   # [optional] if you want to run on single GPU, use below command to limit GPU may improve performance
@@ -135,7 +134,6 @@ To use GPU acceleration, several environment variables are required or recommend
   Please run the following command in Miniforge Prompt.
 
   ```cmd
-  set SYCL_CACHE_PERSISTENT=1
   rem under most circumstances, the following environment variable may improve performance, but sometimes this may also cause performance degradation
   set SYCL_PI_LEVEL_ZERO_USE_IMMEDIATE_COMMANDLISTS=1
   ```
@@ -384,3 +382,7 @@ If you meet this error, please check your Linux kernel version first. You may en
 
 #### 16. `backend buffer base cannot be NULL` error
 If you meet `ggml-backend.c:96: GGML_ASSERT(base != NULL && "backend buffer base cannot be NULL") failed`, simply adding `-c xx` parameter during inference, for example `-c 1024` would resolve this problem.
+
+#### 17. `The program was built for 1 devices` error
+
+If you meet error looks like `The program was built for 1 devices. Build program log for 'Intel(R) Arc(TM) A770 Graphics`:, this may be caused by the command `set/export SYCL_CACHE_PERSISTENT=1`. Please try `unset SYCL_CACHE_PERSISTENT` in the terminal. If the variable has been written into a configuration file such as `~/.bashrc`, you need to manually delete or comment out the conrresponding line.

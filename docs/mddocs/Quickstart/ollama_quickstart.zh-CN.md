@@ -86,7 +86,6 @@ IPEX-LLM 现在已支持在 Linux 和 Windows 系统上运行 `Ollama`。
   export ZES_ENABLE_SYSMAN=1
   
   source /opt/intel/oneapi/setvars.sh
-  export SYCL_CACHE_PERSISTENT=1
   # [optional] under most circumstances, the following environment variable may improve performance, but sometimes this may also cause performance degradation
   export SYCL_PI_LEVEL_ZERO_USE_IMMEDIATE_COMMANDLISTS=1
   # [optional] if you want to run on single GPU, use below command to limit GPU may improve performance
@@ -103,7 +102,6 @@ IPEX-LLM 现在已支持在 Linux 和 Windows 系统上运行 `Ollama`。
   set OLLAMA_NUM_GPU=999
   set no_proxy=localhost,127.0.0.1
   set ZES_ENABLE_SYSMAN=1
-  set SYCL_CACHE_PERSISTENT=1
   rem under most circumstances, the following environment variable may improve performance, but sometimes this may also cause performance degradation
   set SYCL_PI_LEVEL_ZERO_USE_IMMEDIATE_COMMANDLISTS=1
 
@@ -241,3 +239,8 @@ Ollama 默认每 5 分钟从 GPU 内存卸载一次模型。针对 ollama 的最
 
 在 Linux 上，你可以运行 `systemctl stop ollama` 来停止所有的 ollama 进程，然后在当前目录重新执行 `ollama serve`。
 在 Windows 上，你可以运行 `set OLLAMA_HOST=0.0.0.0` 以确保 ollama 命令通过当前的 `ollama serve` 上运行。
+
+#### 11. 执行 `ollama serve` 时报 `The program was built for 1 devices` 错误
+当启动`ollama serve`或者`ollama run <model_name>`时，产生报错`The program was built for 1 devices. Build program log for 'Intel(R) Arc(TM) A770 Graphics':`， 这是因为设置了`SYCL_CACHE_PERSISTENT=1`。请按照以下命令操作：
+
+在命令行中输入`unset SYCL_CACHE_PERSISTENT`；如果写入了配置文件，比如`~.bashrc`等，需要手动删去或注释掉对应的行。
