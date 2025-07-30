@@ -142,6 +142,9 @@ llama_perf_context_print:       total time =   xxxxx.xx ms /  1385 tokens
 
 #### 运行 GGUF 模型
 
+> [!注意]
+> 使用llama.cpp portable zip不需要source oneAPI.
+
 在运行以下命令之前，请将 `PATH\TO\DeepSeek-R1-Distill-Qwen-7B-Q4_K_M.gguf` 更改为你的模型路径。
 
 ```bash
@@ -217,7 +220,11 @@ FlashMoE 是一款基于 `llama.cpp` 构建的命令行工具，针对 DeepSeek 
 
 请将 `/PATH/TO/DeepSeek-R1-Q4_K_M-00001-of-00009.gguf` 更改为您的模型路径，然后运行 `DeepSeek-R1-Q4_K_M.gguf`
 
+> [!注意]
+> 使用flash-moe不需要source oneAPI.
+
 ##### 命令行
+
 ```bash
 ./flash-moe -m /PATH/TO/DeepSeek-R1-Q4_K_M-00001-of-00009.gguf --prompt "What's AI?" -no-cnv
 ```
